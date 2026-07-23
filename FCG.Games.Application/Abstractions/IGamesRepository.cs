@@ -1,0 +1,3 @@
+using FCG.Games.Domain.Entities; namespace FCG.Games.Application.Abstractions;
+public interface IGamesRepository{Task<Game?> GetGameAsync(int id);Task<List<Game>> GetGamesAsync();Task AddGameAsync(Game game);Task AddPurchaseAsync(Purchase purchase);Task AddLibraryItemAsync(LibraryItem item);Task<bool> OwnsAsync(int userId,int gameId);Task<int> LibraryCountAsync(int userId);Task<List<Game>> GetLibraryAsync(int userId);Task SaveAsync();}
+public interface IPaymentsClient{Task<(Guid PaymentId,string Status,string? FailureReason)> ProcessAsync(Guid purchaseId,int userId,int gameId,decimal amount);}

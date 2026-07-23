@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.22" />
+  </ItemGroup>
+  <ItemGroup><ProjectReference Include="..\FCG.Games.Domain\FCG.Games.Domain.csproj" />
+    <ProjectReference Include="..\FCG.Games.Application\FCG.Games.Application.csproj" />
+    <ProjectReference Include="..\FCG.Contracts\FCG.Contracts.csproj" /></ItemGroup>
+</Project>
