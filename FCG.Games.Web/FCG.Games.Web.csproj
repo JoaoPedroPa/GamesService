@@ -7,8 +7,15 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.22" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.17.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.17.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.17.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.17.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.17.0-beta.1" />
   </ItemGroup>
-  <ItemGroup><ProjectReference Include="..\FCG.Games.Application\FCG.Games.Application.csproj" />
+  <ItemGroup>
+    <ProjectReference Include="..\FCG.Games.Application\FCG.Games.Application.csproj" />
     <ProjectReference Include="..\FCG.Games.Infrastructure\FCG.Games.Infrastructure.csproj" />
-    <ProjectReference Include="..\FCG.Contracts\FCG.Contracts.csproj" /></ItemGroup>
+    <ProjectReference Include="..\FCG.Contracts\FCG.Contracts.csproj" />
+  </ItemGroup>
 </Project>

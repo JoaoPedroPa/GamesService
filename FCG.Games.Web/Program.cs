@@ -1,3 +1,10 @@
+using FCG.Games.Infrastructure.Events;
+using FCG.Games.Application.Abstractions.Events;
+using System.Diagnostics;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using System.Text;
 using FCG.Games.Application.Abstractions;
 using FCG.Games.Application.Games;
@@ -8,8 +15,61 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Elastic.Clients.Elasticsearch;
+using FCG.Games.Infrastructure.Search;
 
 var b = WebApplication.CreateBuilder(args);
+
+Activity.DefaultIdFormat = ActivityIdFormat.W3C;
+Activity.ForceDefaultIdFormat = true;
+const string serviceName = "FCG.GamesService";
+var otlpEndpoint = b.Configuration["OpenTelemetry:OtlpEndpoint"] ?? "http://localhost:4317";
+
+b.Logging.Configure(options =>
+    options.ActivityTrackingOptions =
+        ActivityTrackingOptions.TraceId |
+        ActivityTrackingOptions.SpanId |
+        ActivityTrackingOptions.ParentId);
+
+b.Logging.AddOpenTelemetry(options =>
+{
+    options.IncludeFormattedMessage = true;
+    options.IncludeScopes = true;
+    options.ParseStateValues = true;
+    options.SetResourceBuilder(
+        ResourceBuilder.CreateDefault().AddService(serviceName));
+    options.AddOtlpExporter(exporter =>
+    {
+        exporter.Endpoint = new Uri(otlpEndpoint);
+        exporter.Protocol = OtlpExportProtocol.Grpc;
+    });
+});
+
+b.Services
+    .AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService(serviceName))
+    .WithTracing(tracing =>
+    {
+        tracing
+            .AddAspNetCoreInstrumentation(options =>
+            {
+                options.RecordException = true;
+                options.Filter = context =>
+                    !context.Request.Path.StartsWithSegments("/health") &&
+                    !context.Request.Path.StartsWithSegments("/swagger");
+            })
+            .AddHttpClientInstrumentation(options =>
+            {
+                options.RecordException = true;
+            })
+            .AddEntityFrameworkCoreInstrumentation()
+            .AddOtlpExporter(exporter =>
+            {
+                exporter.Endpoint = new Uri(otlpEndpoint);
+                exporter.Protocol = OtlpExportProtocol.Grpc;
+            });
+    });
+
 
 b.Services.AddControllers();
 b.Services.AddEndpointsApiExplorer();
@@ -52,6 +112,7 @@ b.Services.AddDbContext<GamesDbContext>(o =>
         b.Configuration.GetConnectionString("DefaultConnection")));
 
 b.Services.AddScoped<IGamesRepository, GamesRepository>();
+b.Services.AddScoped<IEventStore, EfEventStore>();
 b.Services.AddScoped<GameService>();
 
 b.Services.AddHttpClient<IPaymentsClient, PaymentsClient>(c =>
@@ -80,6 +141,18 @@ b.Services
     });
 
 b.Services.AddAuthorization();
+
+
+var elasticUrl = b.Configuration["Elasticsearch:Url"]
+    ?? throw new InvalidOperationException(
+        "Elasticsearch:Url n�o configurada.");
+
+b.Services.AddSingleton(
+    new ElasticsearchClient(new Uri(elasticUrl)));
+
+b.Services.AddScoped<
+    IGameSearchRepository,
+    ElasticsearchGameSearchRepository>();
 
 var app = b.Build();
 
