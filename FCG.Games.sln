@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Games.Infrastructure", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Contracts", "FCG.Contracts\FCG.Contracts.csproj", "{5677DD6D-602C-494A-BCB0-A6EC03D47C8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Games.Tests", "FCG.Games.Tests\FCG.Games.Tests.csproj", "{239E2064-AF1D-4AE0-976C-C57D74763F77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{5677DD6D-602C-494A-BCB0-A6EC03D47C8B}.Release|x64.Build.0 = Release|Any CPU
 		{5677DD6D-602C-494A-BCB0-A6EC03D47C8B}.Release|x86.ActiveCfg = Release|Any CPU
 		{5677DD6D-602C-494A-BCB0-A6EC03D47C8B}.Release|x86.Build.0 = Release|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Debug|x64.Build.0 = Debug|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Debug|x86.Build.0 = Debug|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Release|x64.ActiveCfg = Release|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Release|x64.Build.0 = Release|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Release|x86.ActiveCfg = Release|Any CPU
+		{239E2064-AF1D-4AE0-976C-C57D74763F77}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
