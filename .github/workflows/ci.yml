@@ -1,8 +1,6 @@
 name: GamesService CI
 
 on:
-  workflow_dispatch:
-
   push:
     branches:
       - main
@@ -10,9 +8,6 @@ on:
   pull_request:
     branches:
       - main
-
-permissions:
-  contents: read
 
 jobs:
   build-and-test:
@@ -44,32 +39,10 @@ jobs:
           --logger "trx;LogFileName=test-results.trx"
           --results-directory ./TestResults
 
-      - name: Instalar ReportGenerator
-        run: dotnet tool install --global dotnet-reportgenerator-globaltool
-
-      - name: Gerar relatório visual
-        run: >
-          reportgenerator
-          "-reports:TestResults/**/coverage.cobertura.xml"
-          "-targetdir:CoverageReport"
-          "-reporttypes:Html;MarkdownSummaryGithub"
-          "-title:GamesService - Cobertura de testes"
-
-      - name: Exibir cobertura no Summary
-        run: cat CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
-
-      - name: Salvar resultados dos testes
+      - name: Salvar resultados e cobertura
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: games-service-test-results
           path: TestResults/
-          if-no-files-found: warn
-
-      - name: Salvar relatório visual de cobertura
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: games-service-coverage-report
-          path: CoverageReport/
           if-no-files-found: warn
