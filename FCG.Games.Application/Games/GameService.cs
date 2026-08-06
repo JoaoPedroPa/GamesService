@@ -6,6 +6,10 @@ using FCG.Games.Domain.Entities;
 namespace FCG.Games.Application.Games;
 
 public sealed record CreateGameRequest(string Name, string Genre, decimal Price);
+
+
+
+// teste CI GitHub Actions
 public sealed record PurchaseGameResponse(
     Guid PurchaseId,
     Guid PaymentId,
