@@ -9,7 +9,7 @@ public sealed record CreateGameRequest(string Name, string Genre, decimal Price)
 
 
 
-// teste CI GitHub Actions teste9
+// teste CI GitHub Actions teste10
 public sealed record PurchaseGameResponse(
     Guid PurchaseId,
     Guid PaymentId,
